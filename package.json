@@ -1,0 +1,19 @@
+{
+  "name": "3_uniswap_v3_project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "@uniswap/sdk-core": "^4.0.9",
+    "@uniswap/v3-sdk": "^3.10.0",
+    "ethers": "^6.8.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "typescript": "^5.2.2"
+  }
+}
