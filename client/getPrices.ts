@@ -1,15 +1,21 @@
 import { ethers } from 'ethers'
-import IUniswapV3PoolABI from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 import Quoter from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 import * as constant from './constants'
-import { CurrentConfig } from '../config'
+import { getProvider } from '../utils/providers';
+import { CurrentConfig } from '../config';
 
-const quoter = constant.QUOTER_CONTRACT_V1;
-const provider: ethers.JsonRpcProvider = new ethers.JsonRpcProvider(CurrentConfig.rpc.mainnet);
-const quoterContract = new ethers.Contract(quoter, Quoter.abi, provider)
+const quoterContract = new ethers.Contract(
+  constant.QUOTER_CONTRACT_V1, 
+  Quoter.abi, 
+  getProvider()
+)
 
 async function getPricesV3(address_from: string, address_to: string, amount_in: string): Promise<string> {
-  const amountIn = ethers.parseUnits(amount_in, 6) // USDC
+
+  console.log()
+  const amountIn = ethers.parseUnits(amount_in, CurrentConfig.tokens.in.decimals)
+
+  console.log('amount in:', amountIn)
 
   const quoteAmountOut = await quoterContract.quoteExactInputSingle.staticCall(
     constant.USDC_CONTRACT,
@@ -19,15 +25,19 @@ async function getPricesV3(address_from: string, address_to: string, amount_in: 
     0
   )
 
-  const outputAmount = ethers.formatUnits(quoteAmountOut.toString(), 18)
+  const outputAmount = ethers.formatUnits(
+    quoteAmountOut, 
+    CurrentConfig.tokens.out.decimals
+  )
 
   return outputAmount;
 }
 
-const main = async (amount_in: string) => {
+const main = async () => {
+  const amount_in = '50';
   const amountOut: string = await getPricesV3(constant.USDC_CONTRACT, constant.WETH_CONTRACT, amount_in);
 
-  console.log('amount out: ', amountOut)
+  console.log('amount in: ', amount_in)
 }
 
-main('1819');
+main();
