@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "app": "tsc && node ./dist/client/getPrices.js"
+    "app:get-prices": "tsc && node ./dist/client/getPrices.js",
+    "app:get-pool-data": "tsc && node ./dist/client/getPoolAndMetadata.js"
   },
   "license": "ISC",
   "dependencies": {

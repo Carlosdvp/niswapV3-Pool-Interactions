@@ -1,12 +1,11 @@
 import { ethers } from 'ethers'
-import Quoter from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 import * as constant from './constants'
 import { getProvider } from '../utils/providers';
 import { CurrentConfig } from '../config';
 
 const quoterContract = new ethers.Contract(
   constant.QUOTER_CONTRACT_V1, 
-  Quoter.abi, 
+  constant.QUOTER_ABI, 
   getProvider()
 )
 
@@ -30,10 +29,10 @@ async function getPricesV3(address_from: string, address_to: string, amount_in: 
 }
 
 const main = async () => {
-  const amount_in = '500';
+  const amount_in = '100';
   const amountOut: string = await getPricesV3(constant.USDC_CONTRACT, constant.WETH_CONTRACT, amount_in);
 
-  console.log('amount out: ', amountOut)
+  console.log('amount out: ', amountOut.slice(0, 8))
 }
 
 main();
